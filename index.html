@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vaani Setu - Giving Voice to Silence</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Font (Inter) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Custom styles for animations */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        
+        .fade-in-up-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .fade-in {
+            opacity: 0;
+            transition: opacity 0.6s ease-out;
+        }
+        .fade-in-visible {
+            opacity: 1;
+        }
+        
+        /* Custom particle animations for hero */
+        @keyframes float-particle-1 {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(10px, -20px); }
+        }
+        @keyframes float-particle-2 {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(-10px, 20px); }
+        }
+        @keyframes chevron-bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(10px); }
+        }
+        
+        .particle-1 {
+            animation: float-particle-1 10s ease-in-out infinite;
+        }
+        .particle-2 {
+            animation: float-particle-2 12s ease-in-out infinite;
+        }
+        .chevron-bounce {
+            animation: chevron-bounce 2s ease-in-out infinite;
+        }
+
+        /* Custom styles for roadmap */
+        .timeline-line {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background-color: #bae6fd; /* sky-200 */
+            transform: translateX(-50%);
+            border-radius: 9999px;
+        }
+        .timeline-dot {
+            position: absolute;
+            left: 50%;
+            width: 1rem;
+            height: 1rem;
+            background-color: #0284c7; /* sky-600 */
+            border-radius: 9999px;
+            border-width: 4px;
+            border-color: #ffffff; /* white */
+            transform: translateX(-50%);
+            z-index: 10;
+        }
+        .timeline-item {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        .timeline-content-left {
+            width: 50%;
+            padding-right: 2rem;
+            text-align: right;
+        }
+        .timeline-content-right {
+            width: 50%;
+            padding-left: 2rem;
+            text-align: left;
+        }
+        .timeline-spacer {
+            width: 50%;
+        }
+
+        /* Active Nav Link Style */
+        .nav-link.active {
+            color: #0284c7; /* sky-600 */
+        }
+
+        /* Mobile Menu */
+        #mobile-menu {
+            transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+        }
+    </style>
+</head>
+<body class="bg-white text-slate-800 transition-colors duration-300 overflow-x-hidden">
+
+    <!-- Scroll Progress Bar -->
+    <div id="scroll-progress" class="fixed top-0 left-0 right-0 h-1.5 bg-sky-500 origin-left z-[100]" style="transform: scaleX(0);"></div>
+
+    <!-- Header -->
+    <header class="fixed top-0 left-0 w-full z-50">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16 backdrop-blur-sm bg-white/70 border-b border-slate-200">
+                <!-- Logo -->
+                <div class="flex-shrink-0">
+                    <a href="#home" class="text-xl font-bold text-sky-600">
+                        Vaani Setu
+                    </a>
+                </div>
+                
+                <!-- Desktop Nav -->
+                <div class="hidden md:flex items-center space-x-4">
+                    <a href="#home" class="nav-link px-3 py-2 rounded-md text-sm font-medium transition-colors text-slate-700 hover:text-sky-600">Home</a>
+                    <a href="#problem" class="nav-link px-3 py-2 rounded-md text-sm font-medium transition-colors text-slate-700 hover:text-sky-600">Problem</a>
+                    <a href="#competitors" class="nav-link px-3 py-2 rounded-md text-sm font-medium transition-colors text-slate-700 hover:text-sky-600">Competitors</a>
+                    <a href="#about" class="nav-link px-3 py-2 rounded-md text-sm font-medium transition-colors text-slate-700 hover:text-sky-600">About</a>
+                    <a href="#features" class="nav-link px-3 py-2 rounded-md text-sm font-medium transition-colors text-slate-700 hover:text-sky-600">Features</a>
+                    <a href="#demo" class="nav-link px-3 py-2 rounded-md text-sm font-medium transition-colors text-slate-700 hover:text-sky-600">Demo</a>
+                    <a href="#roadmap" class="nav-link px-3 py-2 rounded-md text-sm font-medium transition-colors text-slate-700 hover:text-sky-600">Roadmap</a>
+                    <a href="#team" class="nav-link px-3 py-2 rounded-md text-sm font-medium transition-colors text-slate-700 hover:text-sky-600">Team</a>
+                    <a href="#contact" class="nav-link px-3 py-2 rounded-md text-sm font-medium transition-colors text-slate-700 hover:text-sky-600">Contact</a>
+                </div>
+                
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="p-2 rounded-full text-slate-700 hover:bg-slate-100 transition-colors" aria-label="Open menu">
+                        <i data-lucide="menu" class="w-5 h-5 block" id="menu-icon-open"></i>
+                        <i data-lucide="x" class="w-5 h-5 hidden" id="menu-icon-close"></i>
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden absolute top-16 left-0 w-full bg-white shadow-lg border-b border-slate-200 opacity-0 -translate-y-2">
+            <div class="flex flex-col px-4 py-3 space-y-1">
+                <a href="#home" class="nav-link mobile-nav-link px-3 py-2 rounded-md text-base font-medium transition-colors text-slate-700">Home</a>
+                <a href="#problem" class="nav-link mobile-nav-link px-3 py-2 rounded-md text-base font-medium transition-colors text-slate-700">Problem</a>
+                <a href="#competitors" class="nav-link mobile-nav-link px-3 py-2 rounded-md text-base font-medium transition-colors text-slate-700">Competitors</a>
+                <a href="#about" class="nav-link mobile-nav-link px-3 py-2 rounded-md text-base font-medium transition-colors text-slate-700">About</a>
+                <a href="#features" class="nav-link mobile-nav-link px-3 py-2 rounded-md text-base font-medium transition-colors text-slate-700">Features</a>
+                <a href="#demo" class="nav-link mobile-nav-link px-3 py-2 rounded-md text-base font-medium transition-colors text-slate-700">Demo</a>
+                <a href="#roadmap" class="nav-link mobile-nav-link px-3 py-2 rounded-md text-base font-medium transition-colors text-slate-700">Roadmap</a>
+                <a href="#team" class="nav-link mobile-nav-link px-3 py-2 rounded-md text-base font-medium transition-colors text-slate-700">Team</a>
+                <a href="#contact" class="nav-link mobile-nav-link px-3 py-2 rounded-md text-base font-medium transition-colors text-slate-700">Contact</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+
+        <!-- Hero Section -->
+        <section id="home" class="relative min-h-screen flex items-center justify-center text-center overflow-hidden pt-16">
+            <!-- Soft Gradient Background -->
+            <div class="absolute inset-0 -z-10 bg-gradient-to-br from-sky-100 via-white to-sky-50"></div>
+            
+            <!-- Floating Particles Animation -->
+            <div class="absolute inset-0 -z-10 overflow-hidden">
+                <div class="particle-1 absolute -bottom-20 -left-20 w-40 h-40 bg-sky-200 rounded-full opacity-30"></div>
+                <div class="particle-2 absolute -top-20 -right-20 w-48 h-48 bg-sky-200 rounded-full opacity-30"></div>
+            </div>
+            
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h1 class="fade-in-up text-4xl sm:text-5xl md:text-6xl font-bold text-slate-900 leading-tight" style="transition-delay: 0.2s;">
+                    Giving a Voice to Those Who Communicate Through Silence.
+                </h1>
+                
+                <p class="fade-in-up mt-6 text-lg text-slate-600 max-w-2xl mx-auto" style="transition-delay: 0.4s;">
+                    Vaani Setu is an AI-powered platform that interprets Indian Sign Language in real-time, bridging the gap between silence and sound.
+                </p>
+                
+                <div class="fade-in-up mt-10 flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4" style="transition-delay: 0.6s;">
+                    <a href="#demo" class="inline-block px-8 py-3 bg-sky-600 text-white font-medium rounded-lg shadow-lg hover:bg-sky-700 transition-all duration-300 transform hover:scale-105">
+                        Try Demo
+                    </a>
+                    <a href="#about" class="inline-block px-8 py-3 bg-transparent text-sky-600 font-medium rounded-lg ring-2 ring-sky-600 hover:bg-sky-600/10 transition-all duration-300 transform hover:scale-105">
+                        Learn More
+                    </a>
+                </div>
+            </div>
+      
+            <div class="fade-in chevron-bounce absolute bottom-10" style="transition-delay: 0.8s;">
+                <i data-lucide="chevron-down" class="w-6 h-6 text-slate-500"></i>
+            </div>
+        </section>
+
+        <!-- Problem Section -->
+        <section id="problem" class="py-20 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12 fade-in-up">
+                    <h2 class="text-3xl sm:text-4xl font-bold text-slate-900 mb-3">
+                        The Problem We're Solving
+                    </h2>
+                    <p class="text-lg text-slate-600 max-w-2xl mx-auto">
+                        Please provide the content for this section from your presentation.
+                    </p>
+                </div>
+                
+                <div class="fade-in-up text-center max-w-3xl mx-auto p-8 bg-slate-100 rounded-lg shadow-lg">
+                    <h3 class="text-2xl font-semibold mb-4 text-sky-600">Problem Placeholder</h3>
+                    <p class="text-lg text-slate-600 leading-relaxed">
+                        This is a placeholder for the "Problem" section. I was unable to access the Gamma link you provided. 
+                        Please paste the text for this section, and I will update it.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Competitors Section -->
+        <section id="competitors" class="py-20 bg-slate-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12 fade-in-up">
+                    <h2 class="text-3xl sm:text-4xl font-bold text-slate-900 mb-3">
+                        Our Competitors
+                    </h2>
+                    <p class="text-lg text-slate-600 max-w-2xl mx-auto">
+                        Please provide the content for this section from your presentation.
+                    </p>
+                </div>
+                
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="fade-in-up p-6 bg-white rounded-xl shadow-lg border border-slate-100">
+                        <div class="w-12 h-12 bg-sky-100 text-sky-600 rounded-lg flex items-center justify-center mb-4">
+                            <i data-lucide="users-2" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Competitor A</h3>
+                        <p class="text-slate-600">Description for Competitor A.</p>
+                    </div>
+                    <div class="fade-in-up p-6 bg-white rounded-xl shadow-lg border border-slate-100" style="transition-delay: 0.1s;">
+                        <div class="w-12 h-12 bg-sky-100 text-sky-600 rounded-lg flex items-center justify-center mb-4">
+                            <i data-lucide="users-2" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Competitor B</h3>
+                        <p class="text-slate-600">Description for Competitor B.</p>
+                    </div>
+                    <div class="fade-in-up p-6 bg-white rounded-xl shadow-lg border border-slate-100" style="transition-delay: 0.2s;">
+                        <div class="w-12 h-12 bg-sky-100 text-sky-600 rounded-lg flex items-center justify-center mb-4">
+                            <i data-lucide="users-2" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Competitor C</h3>
+                        <p class="text-slate-600">Description for Competitor C.</p>
+                    </div>
+                </div>
+                <p class="text-center text-slate-500 mt-8 fade-in-up" style="transition-delay: 0.3s;">
+                    This is a placeholder for the "Competitors" section. Please paste the actual competitor information, and I will update this UI.
+                </p>
+            </div>
+        </section>
+
+
+        <!-- About Section -->
+        <section id="about" class="py-20 bg-slate-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12 fade-in-up">
+                    <h2 class="text-3xl sm:text-4xl font-bold text-slate-900 mb-3">
+                        About Vaani Setu
+                    </h2>
+                    <p class="text-lg text-slate-600 max-w-2xl mx-auto">
+                        Understanding the silence and the mission behind the voice.
+                    </p>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-12 items-center mb-16">
+                    <div class="fade-in-up">
+                        <h3 class="text-2xl font-semibold mb-4 text-sky-600">Our Solution</h3>
+                        <p class="text-slate-600 text-lg leading-relaxed">
+                            Millions of individuals in the deaf and mute community rely on sign language, but a significant communication barrier exists with the non-signing world. This gap can lead to social isolation, limited access to education, and fewer employment opportunities.
+                        </p>
+                    </div>
+                    <div class="fade-in-up p-6 bg-white rounded-lg shadow-lg" style="transition-delay: 0.2s;">
+                        <h3 class="text-2xl font-semibold mb-6 text-center text-sky-600">How It Works</h3>
+                        <div class="flex flex-col sm:flex-row items-center justify-around space-y-4 sm:space-y-0">
+                            <div class="flex flex-col items-center text-center">
+                                <i data-lucide="hand" class="w-8 h-8 text-sky-500 mb-2"></i>
+                                <span class="font-medium">User Signs</span>
+                            </div>
+                            <i data-lucide="arrow-right" class="w-6 h-6 text-slate-400 hidden sm:block mx-4"></i>
+                            <i data-lucide="chevron-down" class="w-6 h-6 text-slate-400 sm:hidden my-2"></i>
+                            
+                            <div class="flex flex-col items-center text-center">
+                                <i data-lucide="sparkles" class="w-8 h-8 text-sky-500 mb-2"></i>
+                                <span class="font-medium">AI Interprets</span>
+                            </div>
+                            <i data-lucide="arrow-right" class="w-6 h-6 text-slate-400 hidden sm:block mx-4"></i>
+                            <i data-lucide="chevron-down" class="w-6 h-6 text-slate-400 sm:hidden my-2"></i>
+
+                            <div class="flex flex-col items-center text-center">
+                                <i data-lucide="message-square" class="w-8 h-8 text-sky-500 mb-2"></i>
+                                <span class="font-medium">Text/Speech Output</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="fade-in-up text-center max-w-3xl mx-auto p-8 bg-gradient-to-r from-sky-500 to-blue-600 text-white rounded-lg shadow-xl" style="transition-delay: 0.3s;">
+                    <h3 class="text-2xl font-semibold mb-4">Why We're Building This</h3>
+                    <p class="text-lg text-sky-100 leading-relaxed">
+                        We believe in a world where everyone has a voice. Our mission is to leverage technology not just for innovation, but for empathy and inclusion. Vaani Setu is our commitment to building bridges, fostering understanding, and empowering every individual to be heard.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section id="features" class="py-20">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12 fade-in-up">
+                    <h2 class="text-3xl sm:text-4xl font-bold text-slate-900 mb-3">
+                        Features
+                    </h2>
+                    <p class="text-lg text-slate-600 max-w-2xl mx-auto">
+                        Packed with technology to make communication accessible to all.
+                    </p>
+                </div>
+                
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Feature 1 -->
+                    <div class="fade-in-up p-6 bg-white rounded-xl shadow-lg border border-slate-100">
+                        <div class="w-12 h-12 bg-sky-100 text-sky-600 rounded-lg flex items-center justify-center mb-4">
+                            <i data-lucide="camera" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Real-Time Recognition</h3>
+                        <p class="text-slate-600">Our AI model interprets ISL gestures directly from your device's camera feed.</p>
+                    </div>
+                    <!-- Feature 2 -->
+                    <div class="fade-in-up p-6 bg-white rounded-xl shadow-lg border border-slate-100" style="transition-delay: 0.1s;">
+                        <div class="w-12 h-12 bg-sky-100 text-sky-600 rounded-lg flex items-center justify-center mb-4">
+                            <i data-lucide="mic" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Text & Speech Output</h3>
+                        <p class="text-slate-600">Instantly convert gestures into clear, readable text and natural-sounding speech.</p>
+                    </div>
+                    <!-- Feature 3 -->
+                    <div class="fade-in-up p-6 bg-white rounded-xl shadow-lg border border-slate-100" style="transition-delay: 0.2s;">
+                        <div class="w-12 h-12 bg-sky-100 text-sky-600 rounded-lg flex items-center justify-center mb-4">
+                            <i data-lucide="arrow-right-left" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Two-Way Translation</h3>
+                        <p class="text-slate-600">Communicate seamlessly with future support for voice-to-sign translation.</p>
+                    </div>
+                    <!-- Feature 4 -->
+                    <div class="fade-in-up p-6 bg-white rounded-xl shadow-lg border border-slate-100">
+                        <div class="w-12 h-12 bg-sky-100 text-sky-600 rounded-lg flex items-center justify-center mb-4">
+                            <i data-lucide="accessibility" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Web Accessible</h3>
+                        <p class="text-slate-600">No downloads needed. Access Vaani Setu from any browser on any device.</p>
+                    </div>
+                    <!-- Feature 5 -->
+                    <div class="fade-in-up p-6 bg-white rounded-xl shadow-lg border border-slate-100" style="transition-delay: 0.1s;">
+                        <div class="w-12 h-12 bg-sky-100 text-sky-600 rounded-lg flex items-center justify-center mb-4">
+                            <i data-lucide="globe" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Multilingual Support</h3>
+                        <p class="text-slate-600">Future-proofed to support multiple regional languages and sign language variations.</p>
+                    </div>
+                    <!-- Feature 6 -->
+                    <div class="fade-in-up p-6 bg-white rounded-xl shadow-lg border border-slate-100" style="transition-delay: 0.2s;">
+                        <div class="w-12 h-12 bg-sky-100 text-sky-600 rounded-lg flex items-center justify-center mb-4">
+                            <i data-lucide="smartphone" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Lightweight & Fast</h3>
+                        <p class="text-slate-600">Designed to run efficiently on mobile devices without draining your battery.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Demo Section -->
+        <section id="demo" class="py-20 bg-slate-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12 fade-in-up">
+                    <h2 class="text-3xl sm:text-4xl font-bold text-slate-900 mb-3">
+                        Try the Demo
+                    </h2>
+                    <p class="text-lg text-slate-600 max-w-2xl mx-auto">
+                        See Vaani Setu in action. (Frontend Mockup)
+                    </p>
+                </div>
+                
+                <div class="max-w-5xl mx-auto bg-white rounded-lg shadow-2xl overflow-hidden fade-in-up">
+                    <div class="grid md:grid-cols-2">
+                        <!-- Camera Feed Mockup -->
+                        <div class="relative p-6 flex items-center justify-center min-h-[300px] bg-slate-200">
+                            <i data-lucide="camera" class="w-16 h-16 text-slate-400"></i>
+                            <div class="absolute inset-0 bg-black/50 flex flex-col items-center justify-center text-white p-4">
+                                <i data-lucide="lock" class="w-8 h-8 mb-4"></i>
+                                <h3 class="text-2xl font-semibold mb-2">Coming Soon</h3>
+                                <p class="text-center">The live demo is under construction. This is a placeholder for the camera feed.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Output Mockup -->
+                        <div class="p-8">
+                            <h3 class="text-2xl font-semibold mb-6">Live Output</h3>
+                            <div class="space-y-6">
+                                <div>
+                                    <label class="text-sm font-medium text-slate-500">RECOGNIZED GESTURE (TEXT)</label>
+                                    <div class="mt-2 p-4 h-24 bg-slate-100 rounded-lg text-lg font-medium">
+                                        Hello
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="text-sm font-medium text-slate-500">SPEECH OUTPUT</label>
+                                    <div class="mt-2 p-4 bg-slate-100 rounded-lg flex items-center space-x-3">
+                                        <button class="p-2 bg-sky-600 text-white rounded-full">
+                                            <i data-lucide="mic" class="w-5 h-5"></i>
+                                        </button>
+                                        <span class="text-lg font-medium">"Hello"</span>
+                                    </div>
+                                </div>
+                                <p class="text-sm text-slate-500">
+                                    This interface will show the real-time text and speech conversion once the backend is integrated.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Roadmap Section -->
+        <section id="roadmap" class="py-20">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12 fade-in-up">
+                    <h2 class="text-3xl sm:text-4xl font-bold text-slate-900 mb-3">
+                        Our Roadmap
+                    </h2>
+                    <p class="text-lg text-slate-600 max-w-2xl mx-auto">
+                        The journey ahead to a more inclusive world.
+                    </p>
+                </div>
+                
+                <div class="relative max-w-2xl mx-auto">
+                    <!-- Timeline Line -->
+                    <div class="timeline-line"></div>
+                    
+                    <div class="space-y-12">
+                        <!-- Item 1 -->
+                        <div class="timeline-item fade-in-up">
+                            <div class="timeline-content-left">
+                                <div class="p-6 bg-white rounded-lg shadow-lg border border-slate-100">
+                                    <span class="block text-sm font-semibold text-sky-600 mb-1">0-6 Months</span>
+                                    <h3 class="text-xl font-semibold mb-2">Crack Indian Sign Language</h3>
+                                    <p class="text-slate-600">Develop and refine the core AI model for high-accuracy ISL recognition.</p>
+                                </div>
+                            </div>
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-spacer"></div>
+                        </div>
+                        <!-- Item 2 -->
+                        <div class="timeline-item fade-in-up">
+                            <div class="timeline-spacer"></div>
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-content-right">
+                                <div class="p-6 bg-white rounded-lg shadow-lg border border-slate-100">
+                                    <span class="block text-sm font-semibold text-sky-600 mb-1">6-12 Months</span>
+                                    <h3 class="text-xl font-semibold mb-2">Expand Globally</h3>
+                                    <p class="text-slate-600">Begin research and data collection for other major sign languages (e.g., ASL, BSL).</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Item 3 -->
+                        <div class="timeline-item fade-in-up">
+                            <div class="timeline-content-left">
+                                <div class="p-6 bg-white rounded-lg shadow-lg border border-slate-100">
+                                    <span class="block text-sm font-semibold text-sky-600 mb-1">12-18 Months</span>
+                                    <h3 class="text-xl font-semibold mb-2">Add Voice-to-Sign AI</h3>
+                                    <p class="text-slate-600">Build the two-way communication module, converting spoken language into AI-generated sign avatars.</p>
+                                </div>
+                            </div>
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-spacer"></div>
+                        </div>
+                        <!-- Item 4 -->
+                        <div class="timeline-item fade-in-up">
+                            <div class="timeline-spacer"></div>
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-content-right">
+                                <div class="p-6 bg-white rounded-lg shadow-lg border border-slate-100">
+                                    <span class="block text-sm font-semibold text-sky-600 mb-1">Beyond</span>
+                                    <h3 class="text-xl font-semibold mb-2">Become the World's Bridge</h3>
+                                    <p class="text-slate-600">Establish Vaani Setu as the global standard for sign language communication technology.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Team & Partners Section -->
+        <section id="team" class="py-20 bg-slate-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12 fade-in-up">
+                    <h2 class="text-3xl sm:text-4xl font-bold text-slate-900 mb-3">
+                        Team & Partners
+                    </h2>
+                    <p class="text-lg text-slate-600 max-w-2xl mx-auto">
+                        The people behind the mission and our call for collaboration.
+                    </p>
+                </div>
+                
+                <!-- Team Placeholders -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-20">
+                    <div class="text-center fade-in-up">
+                        <div class="w-24 h-24 sm:w-32 sm:h-32 bg-slate-300 rounded-full mx-auto mb-4 flex items-center justify-center">
+                            <i data-lucide="users" class="w-12 h-12 text-slate-500"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold">Team Member 1</h3>
+                        <p class="text-sky-600">AI Lead</p>
+                    </div>
+                    <div class="text-center fade-in-up" style="transition-delay: 0.1s;">
+                        <div class="w-24 h-24 sm:w-32 sm:h-32 bg-slate-300 rounded-full mx-auto mb-4 flex items-center justify-center">
+                            <i data-lucide="users" class="w-12 h-12 text-slate-500"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold">Team Member 2</h3>
+                        <p class="text-sky-600">Frontend Developer</p>
+                    </div>
+                    <div class="text-center fade-in-up" style="transition-delay: 0.2s;">
+                        <div class="w-24 h-24 sm:w-32 sm:h-32 bg-slate-300 rounded-full mx-auto mb-4 flex items-center justify-center">
+                            <i data-lucide="users" class="w-12 h-12 text-slate-500"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold">Team Member 3</h3>
+                        <p class="text-sky-600">Project Manager</p>
+                    </div>
+                    <div class="text-center fade-in-up" style="transition-delay: 0.3s;">
+                        <div class="w-24 h-24 sm:w-32 sm:h-32 bg-slate-300 rounded-full mx-auto mb-4 flex items-center justify-center">
+                            <i data-lucide="users" class="w-12 h-12 text-slate-500"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold">Team Member 4</h3>
+                        <p class="text-sky-600">UX/UI Designer</p>
+                    </div>
+                </div>
+                
+                <!-- Our Ask -->
+                <div class="max-w-4xl mx-auto">
+                    <h3 class="text-2xl sm:text-3xl font-bold text-center mb-10 fade-in-up">Our Ask</h3>
+                    <div class="grid md:grid-cols-3 gap-8">
+                        <div class="p-6 bg-white rounded-lg shadow-lg text-center fade-in-up">
+                            <div class="w-14 h-14 bg-sky-100 text-sky-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i data-lucide="heart" class="w-7 h-7"></i>
+                            </div>
+                            <h4 class="text-xl font-semibold mb-2">Funding</h4>
+                            <p class="text-slate-600">To accelerate our model development and scale our infrastructure.</p>
+                        </div>
+                        <div class="p-6 bg-white rounded-lg shadow-lg text-center fade-in-up" style="transition-delay: 0.1s;">
+                            <div class="w-14 h-14 bg-sky-100 text-sky-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i data-lucide="users" class="w-7 h-7"></i>
+                            </div>
+                            <h4 class="text-xl font-semibold mb-2">Mentorship</h4>
+                            <p class="text-slate-600">Guidance from experts in AI, accessibility, and disability tech.</p>
+                        </div>
+                        <div class="p-6 bg-white rounded-lg shadow-lg text-center fade-in-up" style="transition-delay: 0.2s;">
+                            <div class="w-14 h-14 bg-sky-100 text-sky-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i data-lucide="rocket" class="w-7 h-7"></i>
+                            </div>
+                            <h4 class="text-xl font-semibold mb-2">Developer Support</h4>
+                            <p class="text-slate-600">Passionate engineers to help us build and refine our platform.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="py-20">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12 fade-in-up">
+                    <h2 class="text-3xl sm:text-4xl font-bold text-slate-900 mb-3">
+                        Get in Touch
+                    </h2>
+                    <p class="text-lg text-slate-600 max-w-2xl mx-auto">
+                        We'd love to hear from you. Let's build a more inclusive future together.
+                    </p>
+                </div>
+                
+                <div class="max-w-4xl mx-auto grid md:grid-cols-2 gap-12 bg-white p-8 rounded-lg shadow-xl fade-in-up">
+                    <!-- Contact Form -->
+                    <form class="space-y-6">
+                        <div>
+                            <label for="name" class="block text-sm font-medium text-slate-700">Name</label>
+                            <input type="text" id="name" class="mt-1 block w-full px-4 py-3 rounded-lg bg-slate-100 border-transparent focus:ring-sky-500 focus:bg-white focus:border-sky-500" placeholder="Your Name">
+                        </div>
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-slate-700">Email</label>
+                            <input type="email" id="email" class="mt-1 block w-full px-4 py-3 rounded-lg bg-slate-100 border-transparent focus:ring-sky-500 focus:bg-white focus:border-sky-500" placeholder="your.email@example.com">
+                        </div>
+                        <div>
+                            <label for="message" class="block text-sm font-medium text-slate-700">Message</label>
+                            <textarea id="message" rows="4" class="mt-1 block w-full px-4 py-3 rounded-lg bg-slate-100 border-transparent focus:ring-sky-500 focus:bg-white focus:border-sky-500" placeholder="Your message..."></textarea>
+                        </div>
+                        <button type="submit" class="w-full px-6 py-3 bg-sky-600 text-white font-medium rounded-lg shadow-md hover:bg-sky-700 transition-all duration-300">
+                            Send Message
+                        </button>
+                    </form>
+                    
+                    <!-- Contact Info -->
+                    <div class="space-y-6">
+                        <div>
+                            <h4 class="text-lg font-semibold mb-2">Contact Us</h4>
+                            <p class="text-slate-600">
+                                For partnerships, investment inquiries, or general questions, please reach out.
+                            </p>
+                        </div>
+                        <div>
+                            <h4 class="text-lg font-semibold mb-2">Email</h4>
+                            <a href="mailto:contact@vaanisetu.ai" class="text-sky-600 hover:underline">
+                                contact@vaanisetu.ai
+                            </a>
+                        </div>
+                        <div>
+                            <h4 class="text-lg font-semibold mb-2">Follow Us</h4>
+                            <div class="flex space-x-4">
+                                <a href="#" class="p-2 text-slate-500 hover:text-sky-600 transition-colors" aria-label="LinkedIn">
+                                    <i data-lucide="linkedin" class="w-6 h-6"></i>
+                                </a>
+                                <a href="#" class="p-2 text-slate-500 hover:text-sky-600 transition-colors" aria-label="GitHub">
+                                    <i data-lucide="github" class="w-6 h-6"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-100 border-t border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col sm:flex-row justify-between items-center text-sm">
+            <p class="text-slate-600">
+                © <span id="current-year"></span> Vaani Setu. All rights reserved.
+            </p>
+            <div class="flex space-x-4 mt-4 sm:mt-0">
+                <a href="#home" class="text-slate-600 hover:text-sky-600">Home</a>
+                <a href="#features" class="text-slate-600 hover:text-sky-600">Features</a>
+                <a href="#contact" class="text-slate-600 hover:text-sky-600">Contact</a>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // --- Lucide Icons ---
+            lucide.createIcons();
+
+            // --- Set Current Year in Footer ---
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+
+            // --- Mobile Menu Toggle ---
+            const menuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const menuIconOpen = document.getElementById('menu-icon-open');
+            const menuIconClose = document.getElementById('menu-icon-close');
+            const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+
+            if (menuBtn && mobileMenu) {
+                menuBtn.addEventListener('click', () => {
+                    const isOpen = !mobileMenu.classList.contains('hidden');
+                    if (isOpen) {
+                        mobileMenu.classList.add('opacity-0', '-translate-y-2');
+                        setTimeout(() => mobileMenu.classList.add('hidden'), 300);
+                        menuIconOpen.classList.remove('hidden');
+                        menuIconClose.classList.add('hidden');
+                    } else {
+                        mobileMenu.classList.remove('hidden');
+                        setTimeout(() => mobileMenu.classList.remove('opacity-0', '-translate-y-2'), 10);
+                        menuIconOpen.classList.add('hidden');
+                        menuIconClose.classList.remove('hidden');
+                    }
+                });
+
+                // Close menu when a link is clicked
+                mobileNavLinks.forEach(link => {
+                    link.addEventListener('click', () => {
+                        mobileMenu.classList.add('opacity-0', '-translate-y-2');
+                        setTimeout(() => mobileMenu.classList.add('hidden'), 300);
+                        menuIconOpen.classList.remove('hidden');
+                        menuIconClose.classList.add('hidden');
+                    });
+                });
+            }
+
+
+            // --- Scroll Progress Bar ---
+            const scrollProgress = document.getElementById('scroll-progress');
+            window.addEventListener('scroll', () => {
+                const scrollTop = document.documentElement.scrollTop;
+                const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                const scrollPercentage = (scrollTop / scrollHeight) * 100;
+                if(scrollProgress) scrollProgress.style.transform = `scaleX(${scrollPercentage / 100})`;
+            });
+
+            
+            // --- Scroll-Spy (Active Nav Links) ---
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            const sectionObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const id = entry.target.getAttribute('id');
+                        navLinks.forEach(link => {
+                            link.classList.remove('active');
+                            if (link.getAttribute('href') === `#${id}`) {
+                                link.classList.add('active');
+                            }
+                        });
+                    }
+                });
+            }, {
+                rootMargin: '-30% 0px -70% 0px', // Trigger when section is in the middle 40%
+                threshold: 0
+            });
+
+            sections.forEach(section => {
+                sectionObserver.observe(section);
+            });
+
+
+            // --- Scroll-in Animations ---
+            const animatedElements = document.querySelectorAll('.fade-in-up, .fade-in');
+            
+            const animationObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        if (entry.target.classList.contains('fade-in-up')) {
+                            entry.target.classList.add('fade-in-up-visible');
+                        } else if (entry.target.classList.contains('fade-in')) {
+                            entry.target.classList.add('fade-in-visible');
+                        }
+                        animationObserver.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.1 // Trigger when 10% of the element is visible
+            });
+
+            animatedElements.forEach(el => {
+                animationObserver.observe(el);
+            });
+
+
+            // --- Prevent form submission on contact form ---
+            const contactForm = document.querySelector('#contact form');
+            if (contactForm) {
+                contactForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    // In a real app, you'd handle form submission here.
+                    // For this demo, we just prevent the page reload.
+                    alert('Form submission is disabled for this demo.');
+                });
+            }
+
+        });
+    </script>
+</body>
+</html>
